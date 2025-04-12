@@ -1,0 +1,39 @@
+node --watch  server.js
+
+docker run -tdi -p 3000:3000 --name test_docker_hub_container imageId
+
+docker run -tdi -p 3000:3000 --name test_docker_hub -v /d/workspace/documents/docker/testDockerHub:/app imageId
+
+docker run -tdi -p 3000:3000 -v /d/workspace/documents/docker/testDockerHub/:/app:cached -v app/node_modules --name test-docker-hub c0bf160f001d 
+// if node_modules does not exist in local project. 
+!!!it is better that every file found in the container must be found in the local folder to avoid -v app/node_modules
+
+!! -v app/node_modules: pour ne pas écraser le node_modules qui se trouve dans le conteneur
+
+!! Assurez-vous que le chemin local /d/workspace/documents/docker/testDockerHub est correctement monté dans le conteneur au chemin /app
+
+RUN apt update && \
+    apt install vim -y
+
+!!! Dans un environnement Docker, nodemon peut avoir des problèmes pour détecter les changements de fichiers. L'option --legacy-watch force nodemon à utiliser un mode de surveillance compatible.
+
+//nginx: docker run -tdi -p 8080:80 -v /d/workspace/documents/docker/testNginxDockerfile/:/usr/share/nginx/html --name my-nginx nginx
+
+********************************************************testNginxDefault*****************************************************************************
+docker run -d --name temp_nginx nginx
+docker cp temp_nginx:/usr/share/nginx/html/. "D:\workspace\documents\docker\testNginxDefault"
+docker rm -f temp_nginx
+docker run -tdi -p 8080:80 -v "D:\workspace\documents\docker\testNginxDefault":/usr/share/nginx/html --name my_nginx nginx
+
+!!!  lorsque vous montez un volume local sur un répertoire dans un conteneur Docker, Docker ne fusionne pas le contenu du répertoire local et du répertoire du conteneur.
+===> Docker ne fait pas une fusion, mais un remplacement0
+
+
+***********************************************************dockerHub**********************************************************************
+0. docker images: pour prendre l'id de l'images à pousser sur dockerHub
+1. docker login -u jemmali
+2. password
+3. docker tag cf9d4a827a46 jemmali/testdockerhub:latest
+4. docker images: pour vérifier qu'une image basé sur l'ancienne image est ajoutée (nommée jemmali/testdockerhub) avec un tagName latest 
+5. docker push jemmali/testdockerhub:latest
+6. docker logout
