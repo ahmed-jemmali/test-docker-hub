@@ -111,3 +111,5 @@ RUN ng analytics off
 EXPOSE 4200
 
 CMD ["ng", "serve", "--host", "0.0.0.0", "--poll=2000"]
+
+command: docker run -tdi -v "D:\workspace\documents\docker\testDockerAngularDevMode":/usr/src/app -v usr/src/app/node_modules -p 4200:4200 --name angular-dev-c f0f7f77b2ba5
